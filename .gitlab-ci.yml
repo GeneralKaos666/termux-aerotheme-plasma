@@ -23,4 +23,3 @@ build-linux-x64:
     expire_in: 6 mos
     paths:
       - out/
-
