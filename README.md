@@ -9,11 +9,11 @@ This is a project which aims to recreate the look and feel of Windows 7 as much 
 ATP is in constant development and testing, it has been tested on:
 
 - Arch Linux x64 and other Arch derivatives
-- Plasma 6.6.1, KDE Frameworks 6.23.0, Qt 6.10.2
+- Plasma 6.7.4, KDE Frameworks 6.28.0, Qt 6.11.1
 - 96 DPI scaling, multi monitor
 - X11, Wayland*
 
-*AeroThemePlasma currently lacks full Wayland support, which may result in Wayland-specific issues. 
+*AeroThemePlasma currently lacks full Wayland support, which may result in Wayland-specific issues. Proper Wayland support is planned for Plasma 6.8
 
 ## This software comes "as is" without warranty of any kind. It's always recommended to make backups of your system just in case. I am not responsible for broken systems, please proceed with caution.
 
@@ -128,6 +128,10 @@ Huge thanks to everyone who helped out along the way by contributing, testing, p
 
 - [MondySpartan](https://www.deviantart.com/mondyspartan/art/Windows-10-Year-2010-Edition-1016859431) for inspiring the notification design
 
+### Contributing 
+
+If you with to contribute in any way, please read [CONTRIBUTING](./CONTRIBUTING.md) for more details.
+
 ### Cool projects you should really check out
 
 - [Geckium](https://github.com/angelbruni/Geckium) by AngelBruni
@@ -143,6 +147,35 @@ Huge thanks to everyone who helped out along the way by contributing, testing, p
 - [Ice2K.sys](https://toiletflusher.neocities.org/ice2k/) by 0penrc
 - [Sevulet](https://gitgud.io/snailatte/sevulet) by [snailatte](https://gitgud.io/snailatte)
 - [AeroThemePlasma-Nix](https://github.com/nyakase/aerothemeplasma-nix/) by [nyakase](https://github.com/nyakase)
+
+## Vista variant
+
+Initially I wanted to make a Vista variant of AeroThemePlasma but [catpswin56](https://gitgud.io/catpswin56) beat me to it, use [VistaThemePlasma](https://gitgud.io/aeroshell/vtp/vistathemeplasma) if you want a Vista theme.
+
+## Aero apps for AeroThemePlasma
+To install most of these, the commands to run after cloning are: `mkdir build; cd build; cmake .. -DCMAKE_INSTALL_PREFIX=/usr; sudo make install`.
+
+### Complete re-creations
+- [Linux Explorer](https://github.com/actuallyaridan/linux-explorer) by ActuallyAridan
+- [Control Panel](https://github.com/actuallyaridan/linux-control) by ActuallyAridan
+- [Device Manager](https://github.com/actuallyaridan/linux-devmgmt) by ActuallyAridan
+- [Windows 7 Minesweeper](https://github.com/actuallyaridan/linux-minesweeper) by ActuallyAridan
+- [TuxManager](https://github.com/benapetr/TuxManager) (task manager) by benapetr
+- [Gadgets](https://gitgud.io/catpswin56/win-gadgets) by catpswin56
+- [execbin](https://gitgud.io/catpswin56/execbin) (run dialog) by catpswin56
+- [LinVer](https://gitgud.io/wackyideas/linver) (version dialog)
+
+### KDE app forks
+- [Aero Dolphin](https://gitgud.io/atmk/dolphin-aero) by Albert Tomanek
+- [Aero GwenView](https://gitgud.io/atmk/gwenview-aero) by Albert Tomanek
+- [Aero KolourPaint](https://invent.kde.org/albert-tomanek/kolourpaint/-/tree/saribbon-aero) by Albert Tomanek
+
+### Other Aero Apps
+- [Aero App Store](https://gitgud.io/atmk/app-store/-/tree/flatpak?ref_type=heads) by Albert Tomanek
+
+### Development Libraries
+- [libAeroQt](https://gitgud.io/atmk/libaero-qt) -- Re-usable QtWidgets and QML components for writing Aero apps. Also contains function to make glassy window headers.
+- [SARibbon](https://github.com/czyt1988/SARibbon) -- Ribbon control for Qt. Gets styled by libAeroQt.
 
 ## Screenshots
 

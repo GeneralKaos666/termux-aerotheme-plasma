@@ -5,9 +5,10 @@
 1. [Prerequisites](#preq)
 2. [Migration notice](#migration)
 3. [Getting started](#started)
-4. [Optional](#optional)
-5. [GTK](#gtk)
-6. [Uninstalling AeroThemePlasma (old)](#uninstall_old)
+4. [First run](#firstrun)
+5. [Optional](#optional)
+6. [GTK](#gtk)
+7. [Uninstalling AeroThemePlasma (old)](#uninstall_old)
 
 ## Prerequisites <a name="preq"></a>
 
@@ -207,6 +208,16 @@ $ sudo pacman -S libplasma
 ### Fonts 
 
 On Arch Linux, use [this script](https://gitgud.io/aeroshell/aeroshell-workspace/-/blob/Plasma/6.7/scripts/install_fonts_arch.sh) to extract fonts and install them as an Arch package from a valid Windows 7 ISO. A 32-bit Windows 7 ISO is recommended for faster download speeds.
+
+## First run <a name="firstrun"></a>
+
+Once the installation is complete, an AeroThemePlasma session can be started from SDDM by selecting it in the sessions list. You can choose between using Wayland and X11, assuming the X11 session is built and/or installed on the system. 
+
+![sddm](screenshots/sddm.png)
+
+When the session starts for the first time, a setup wizard should run, which will configure all the necessary settings and set the default look and feel.
+
+![ootb](screenshots/ootb.png)
 
 ## Optional <a name="optional"></a>
 

@@ -49,7 +49,7 @@ PlasmoidItem {
     toolTipSubText: ""
 
     CompactRepresentation { id: compactRepresentation; anchors.fill: parent }
-    MenuRepresentation { id: menuRepresentation }
+    //MenuRepresentation { id: menuRepresentation }
 
     // Used to run separate programs through this plasmoid.
     Plasma5Support.DataSource {
@@ -79,6 +79,28 @@ PlasmoidItem {
         id: windowSystem
     }
 
+    Item {
+        id: favoritesIds
+
+        property list<string> idList: {
+            var l = [];
+            for(var i = 0; i < favoritesIds.children.length; i++) {
+                if(favoritesIds.children[i].text) {
+                    l.push(favoritesIds.children[i].text);
+                }
+            }
+            return l;
+        }
+
+        Repeater {
+            model: globalFavorites
+            delegate: Item {
+                required property var model
+                property string text: model.favoriteId
+            }
+        }
+
+    }
     Kicker.RecentUsageModel {
         id: recentUsageModel
         favoritesModel: globalFavorites

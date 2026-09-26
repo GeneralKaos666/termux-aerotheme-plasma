@@ -108,6 +108,7 @@ PlasmaCore.Dialog {
 		popupPosition();
         if (!visible) {
             reset();
+			firstTimePopup = false;
         } else {
             requestActivate();
 			searchField.forceActiveFocus();
@@ -218,7 +219,7 @@ PlasmaCore.Dialog {
 
 		Timer { // Janky wayland problems require janky solutions
 			id: wayland_fix
-			interval: 25
+			interval: 50
 			onTriggered: root.hideOnWindowDeactivate = true;
 		}
         KCoreAddons.KUser {   id: kuser  }  // Used for getting the username and icon.
@@ -267,11 +268,11 @@ PlasmaCore.Dialog {
 				backgroundHints: PlasmaCore.Types.NoBackground // To prevent the dialog background SVG from being rendered, we want a fully transparent window.
 
 				visible: root.visible && !searching && compositingEnabled && !root.isTouchingTopEdge() //Plasmoid.location != PlasmaCore.Types.TopEdge
-				opacity: iconUser.visible && firstTimePopup // To prevent even more NP-hard unpredictable behavior
+				opacity: firstTimePopup ? 1.0 : 0.0 // To prevent even more NP-hard unpredictable behavior
 
 				mainItem: FloatingIcon {
 					id: compositingIcon
-					visible: compositingEnabled
+					visible: firstTimePopup && compositingEnabled
 				}
         	}
 		}
