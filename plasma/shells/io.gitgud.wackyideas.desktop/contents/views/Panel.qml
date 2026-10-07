@@ -32,6 +32,8 @@ Item {
         }
     }
 
+    property real dpi: root.Window.window.devicePixelRatio
+
     property Item containment
     property bool floatingPrefix: floatingPanelSvg.usedPrefix === "floating"
     readonly property bool verticalPanel: containment?.plasmoid?.formFactor === PlasmaCore.Types.Vertical
@@ -151,7 +153,7 @@ Item {
     property var panelMask: floatingness === 0 ? (panelOpacity === 1 ? opaqueItem.mask : translucentItem.mask) : (panelOpacity === 1 ? floatingOpaqueItem.mask : floatingTranslucentItem.mask)
 
     // The point is read from panelview.cpp and is used as an offset for the mask
-    readonly property point floatingTranslucentItemOffset: Qt.point(floatingTranslucentItem.x, floatingTranslucentItem.y)
+    readonly property point floatingTranslucentItemOffset: Qt.point(floatingTranslucentItem.x+(root.rightEdge && root.dpi != 1.0 ? 1 : 0), floatingTranslucentItem.y+(root.bottomEdge && root.dpi != 1.0 ? 1 : 0))
 
     KSvg.FrameSvgItem {
         id: translucentItem
