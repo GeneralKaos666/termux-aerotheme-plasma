@@ -39,6 +39,8 @@ Item {
     Accessible.role: Accessible.Canvas
 
 
+    readonly property real dpi: main.Window.window.devicePixelRatio
+
     // This MouseArea exists to intercept press and hold; preventing edit mode
     // from being triggered when pressing and holding on an icon (if there is one).
     MouseArea {
@@ -205,7 +207,7 @@ Item {
                 active: impl.iconAndLabelsShouldlookSelected || model.selected
                 asynchronous: true
 
-                width: parent.width
+                width: Math.round(parent.width * main.dpi) / main.dpi
 
                 height: root.useListViewMode
                                 ? parent.height
@@ -309,22 +311,10 @@ Item {
                 PlasmaComponents.Label {
                     id: label
 
-                    renderType: Text.NativeRendering
-                    font.hintingPreference: Font.PreferFullHinting
                     z: 2 // So it's always above the highlight effect
-                    font.kerning: Screen.devicePixelRatio == 1.0
+                    renderType: main.dpi == 1.0 ? Text.NativeRendering : Text.QtRendering
+                    font.hintingPreference: Font.PreferFullHinting
 
-                    Timer {
-                        id: hidpi_hack
-                        interval: 50
-                        onTriggered: {
-                            front.anchors.rightMargin += 1;
-                            front.anchors.rightMargin -= 1;
-                            behind.anchors.rightMargin += 1;
-                            behind.anchors.rightMargin -= 1;
-
-                        }
-                    }
                     // Hacks to improve font rendering to increase contrast and text brightness
                     // This is done to get darker subpixel rendering, closer to ClearType
                     PlasmaComponents.Label {
@@ -334,9 +324,8 @@ Item {
                         anchors.rightMargin: 1
                         anchors.leftMargin: -1
                         color: model.selected && Plasmoid.configuration.selectionStyle ? "black" : "#F9000000"
-                        renderType: Text.NativeRendering
+                        renderType: main.dpi == 1.0 ? Text.NativeRendering : Text.QtRendering
                         font.hintingPreference: Font.PreferFullHinting
-                        font.kerning: Screen.devicePixelRatio == 1.0
                         text: parent.text
                         elide: Text.ElideRight
                         maximumLineCount: parent.maximumLineCount
@@ -350,9 +339,8 @@ Item {
                         anchors.fill: parent
                         anchors.rightMargin: 0
                         color: model.selected && Plasmoid.configuration.selectionStyle ? "black" : "#ffffffff"
-                        renderType: Text.NativeRendering
+                        renderType: main.dpi == 1.0 ? Text.NativeRendering : Text.QtRendering
                         font.hintingPreference: Font.PreferFullHinting
-                        font.kerning: Screen.devicePixelRatio == 1.0
                         text: parent.text
                         elide: Text.ElideRight
                         maximumLineCount: parent.maximumLineCount
@@ -369,7 +357,7 @@ Item {
                                 target: label
                                 anchors.topMargin: Kirigami.Units.smallSpacing
                                 // Ffs
-                                width: Math.floor((parent.width - Kirigami.Units.smallSpacing + (Screen.devicePixelRatio != 1.0) * 2 * Screen.devicePixelRatio) * Screen.devicePixelRatio) / Screen.devicePixelRatio
+                                width: Math.round((parent.width - Kirigami.Units.smallSpacing) * main.dpi) / main.dpi
                                 maximumLineCount: Plasmoid.configuration.textLines
                                 horizontalAlignment: Text.AlignHCenter
                             }
@@ -396,11 +384,6 @@ Item {
                                 target: behind
                                 anchors.rightMargin: 1
                                 anchors.leftMargin: -1
-                            }
-                            StateChangeScript {
-                                script: {
-                                    hidpi_hack.start();
-                                }
                             }
                         },
                         State { // list view
