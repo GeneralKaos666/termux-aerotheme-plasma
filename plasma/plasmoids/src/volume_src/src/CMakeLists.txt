@@ -31,12 +31,7 @@ target_link_libraries(io.gitgud.wackyideas.volume
                       KF6::CoreAddons)
 
 
-<<<<<<< Updated upstream
-||||||| Stash base
-include_directories(/usr/include/Plasma /usr/include/PlasmaQuick /usr/include/KF6/KConfigCore/ /usr/include/KF6/KConfig/ /usr/include/KF6/KCoreAddons/)
-=======
 include_directories(${CMAKE_INSTALL_PREFIX}/include/Plasma ${CMAKE_INSTALL_PREFIX}/include/PlasmaQuick ${CMAKE_INSTALL_PREFIX}/include/KF6/KConfigCore/ ${CMAKE_INSTALL_PREFIX}/include/KF6/KConfig/ ${CMAKE_INSTALL_PREFIX}/include/KF6/KCoreAddons/)
->>>>>>> Stashed changes
 
 install(TARGETS io.gitgud.wackyideas.volume DESTINATION ${KDE_INSTALL_PLUGINDIR}/plasma/applets)
 

@@ -22,11 +22,6 @@ target_link_libraries(io.gitgud.wackyideas.SevenStart
         Plasma::PlasmaQuick
 )
 
-<<<<<<< Updated upstream
-||||||| Stash base
-include_directories(/usr/include/Plasma /usr/include/KF6/KConfigCore/ /usr/include/KF6/KConfig/ /usr/include/KF6/KCoreAddons/ /usr/include/PlasmaQuick/)
-=======
 include_directories(${CMAKE_INSTALL_PREFIX}/include/Plasma ${CMAKE_INSTALL_PREFIX}/include/KF6/KConfigCore/ ${CMAKE_INSTALL_PREFIX}/include/KF6/KConfig/ ${CMAKE_INSTALL_PREFIX}/include/KF6/KCoreAddons/ ${CMAKE_INSTALL_PREFIX}/include/PlasmaQuick/)
->>>>>>> Stashed changes
 
 install(TARGETS io.gitgud.wackyideas.SevenStart DESTINATION ${KDE_INSTALL_PLUGINDIR}/plasma/applets)
