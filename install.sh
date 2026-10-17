@@ -23,13 +23,22 @@ clone_or_update_repo() {
     local repo_dir="$2"
 
     if [[ -d "${repo_dir}/.git" ]]; then
-        git -C "${repo_dir}" pull --ff-only || exit 1
+        git -C "${repo_dir}" fetch origin || exit 1
     elif [[ -e "${repo_dir}" ]]; then
         echo "Path '${repo_dir}' already exists but is not a git checkout."
         exit 1
     else
         git clone "${repo_url}" "${repo_dir}" || exit 1
     fi
+
+    # Pin to the release branch this project targets. Without this, repos land
+    # on the remote's default branch, which may require newer KDE frameworks
+    # than the installed system provides (e.g. libplasma 6.8 needs
+    # PlasmaActivities >= 6.8). Repos without the branch keep their default.
+    if git -C "${repo_dir}" show-ref --verify --quiet "refs/remotes/origin/${BRANCH_VERSION}"; then
+        git -C "${repo_dir}" checkout "${BRANCH_VERSION}" || exit 1
+    fi
+    git -C "${repo_dir}" pull --ff-only || exit 1
 }
 
 if [[ "${TERMUX_INSTALL}" -eq 0 ]]; then
@@ -89,6 +98,23 @@ CMAKE_CONFIGURE_ARGS=()
 
 mkdir -p repos
 mkdir -p manifest
+
+# A checkout that moved to another directory leaves CMake caches referencing
+# the old path, and CMake refuses to configure with them ("CMakeCache.txt
+# directory ... is different than the directory ... where CMakeCache.txt was
+# created"). Drop any build dir whose cache was created elsewhere so it is
+# regenerated in place.
+for _cache in build*/CMakeCache.txt repos/*/build*/CMakeCache.txt; do
+    [[ -f "${_cache}" ]] || continue
+    _builddir="$(dirname "${_cache}")"
+    _cachedir="$(grep -m1 '^CMAKE_CACHEFILE_DIR:' "${_cache}" | cut -d= -f2-)"
+    _realdir="$(cd "${_builddir}" && pwd)"
+    if [[ -n "${_cachedir}" && "${_cachedir}" != "${_realdir}" && "${_cachedir}" != "${PWD}/${_builddir}" ]]; then
+        echo "Removing stale build dir '${_builddir}' (cache belongs to '${_cachedir}')."
+        rm -rf "${_builddir}"
+    fi
+done
+unset _cache _builddir _cachedir _realdir
 
 if [[ "${TERMUX_INSTALL}" -eq 1 ]]; then
     # Termux's GCC has broken OpenMP CXX support; clang works correctly.
@@ -206,7 +232,13 @@ cd "$CUR_DIR/repos"
 # Aeroshell Workspace
 clone_or_update_repo https://gitgud.io/aeroshell/aeroshell-workspace.git aeroshell-workspace
 cd aeroshell-workspace
-cmake "${CMAKE_CONFIGURE_ARGS[@]}" -DCMAKE_INSTALL_PREFIX="${INSTALL_PREFIX}" -B build . || exit 1
+# An absolute sysconfdir is required: the fontconfig step symlinks
+# ${KDE_INSTALL_SYSCONFDIR}/fonts/conf.d via install(CODE), and a relative
+# value ("etc") would resolve against this directory instead of the prefix,
+# so the symlink silently fails on Termux.
+cmake "${CMAKE_CONFIGURE_ARGS[@]}" -DCMAKE_INSTALL_PREFIX="${INSTALL_PREFIX}" \
+    -DCMAKE_INSTALL_SYSCONFDIR="${INSTALL_PREFIX}/etc" \
+    -DKDE_INSTALL_SYSCONFDIR="${INSTALL_PREFIX}/etc" -B build . || exit 1
 cmake --build build || exit 1
 run_install_cmd cmake --install build || exit 1
 if command -v update-mime-database >/dev/null 2>&1; then
