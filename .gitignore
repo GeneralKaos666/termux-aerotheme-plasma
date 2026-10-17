@@ -32,3 +32,4 @@ manifest
 build_x11/CMakeFiles
 build_x11/.qt
 build_x11
+/push-gitgud.sh
