@@ -219,7 +219,7 @@ Alternatively, logs can be retrieved graphically from systemd's journal by using
 - [Plasma SDK](https://github.com/KDE/plasma-sdk) - Features several useful applications for Plasma development 
 - [Qt Creator](https://www.qt.io/product/development-tools) - IDE for Qt applications, useful for QtWidgets codebases and standalone KDE projects
 - [RccExtended](https://github.com/zedxxx/rccextended) - Required for editing SMOD resource files
-- [ResourceHacker](https://www.angusj.com/resourcehacker/) - Useful for viewing and extracting resources from Windows
+- [ResourceHacker](https://www.angusj.com/resourcehacker/ or [Resource Cracker](https://www.pelock.com/products/resource-cracker)) - Useful for viewing and extracting resources from Windows
 
 ## External references
 
